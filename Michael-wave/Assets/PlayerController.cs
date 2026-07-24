@@ -43,19 +43,19 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            weapon.Fire();
-        }
+        // if (Input.GetKeyDown(KeyCode.Z))
+        // {
+        //     weapon.Fire();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            weapon.MeleeAttack();
-        }
+        // if (Input.GetKeyDown(KeyCode.X))
+        // {
+        //     weapon.MeleeAttack();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            weapon.SpecialFire();
-        }
+        // if (Input.GetKeyDown(KeyCode.C))
+        // {
+        //     weapon.SpecialFire();
+        // }
     }
 }

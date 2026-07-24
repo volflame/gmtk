@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.TextCore;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,6 +13,14 @@ public class Enemy : MonoBehaviour
     Vector2 moveDirection;
 
     float health, maxHealth = 3f;
+
+    private enum MovementState
+    {
+        Free,
+        Knocked,
+    }
+
+    private MovementState movementState;
 
     private void Awake()
     {
@@ -36,15 +47,30 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target)
+        switch (movementState)
         {
-            rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+            case MovementState.Free:
+                if (target)
+                {
+                    rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+                }
+                break;
+            case MovementState.Knocked:
+                if (rb.linearVelocity.magnitude < 0.1f)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                    movementState = MovementState.Free;
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector2 direction, float knockbackForce)
     {
         health -= damage;
+        KnockBack(direction, knockbackForce);
         if (health <= 0)
         {
             Die(); // add coroutine and animation here later on ryan
@@ -60,5 +86,13 @@ public class Enemy : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    // knockback implementation
+
+    public void KnockBack(Vector2 direction, float knockbackForce)
+    {
+        rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
+        movementState = MovementState.Knocked;
     }
 }
