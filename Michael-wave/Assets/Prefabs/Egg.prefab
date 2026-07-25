@@ -80,8 +80,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0, g: 0.75793123, b: 1, a: 0.42745098}
+  m_Sprite: {fileID: 8488082480229581224, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -181,10 +181,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Egg
+  coldSprite: {fileID: 8488082480229581224, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
   cooldown: 2
   timer: {fileID: 0}
   meleeHitbox: {fileID: 6567276056661087806}
   attackDuration: 0.3
-  cheeseZone: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}
   fireForce: 20
+  cheeseZonePrefab: {fileID: 0}
+  cheeseZoneCount: 3
+  cheeseSpawnRadius: 8
+  cheeseMinDistance: 2
+  expandDuration: 0.2

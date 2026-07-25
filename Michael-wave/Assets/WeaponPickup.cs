@@ -3,6 +3,30 @@ using UnityEngine;
 public class WeaponPickup : MonoBehaviour
 {
     public Weapon weaponPrefab; // the weapon this pickup grants
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateSprite();
+    }
+
+    private void OnValidate()
+    {
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        UpdateSprite();
+    }
+
+    private void UpdateSprite()
+    {
+        if (weaponPrefab != null && spriteRenderer != null)
+        {
+            spriteRenderer.sprite = weaponPrefab.coldSprite;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

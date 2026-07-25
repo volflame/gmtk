@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+  m_Sprite: {fileID: 712646119667547995, guid: e4e528ab89e57ed49af8e4c112b60b7d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Ramen
+  coldSprite: {fileID: 712646119667547995, guid: e4e528ab89e57ed49af8e4c112b60b7d, type: 3}
   cooldown: 0.3
   timer: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}
