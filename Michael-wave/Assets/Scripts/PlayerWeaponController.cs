@@ -26,11 +26,14 @@ public class PlayerWeaponController : MonoBehaviour
     }
     void Update()
     {
-        if (currentWeapon.weaponName != "Default")
+        if (currentWeapon)
         {
-            countdown -= Time.deltaTime;
-            // countdown = (float)Math.Round(countdown, 2);
-            timer.text = countdown.ToString();    
+            if (currentWeapon.weaponName != "Default")
+            {
+                countdown -= Time.deltaTime;
+                // countdown = (float)Math.Round(countdown, 2);
+                timer.text = countdown.ToString();
+            }
         }
 
         if (countdown <= startSecondPhase)
@@ -73,16 +76,34 @@ public class PlayerWeaponController : MonoBehaviour
         timer.gameObject.SetActive(true);
         if (currentWeapon != null)
         {
-            currentWeapon.gameObject.SetActive(false); // hide old weapon visuals if needed
+            currentWeapon.gameObject.SetActive(false);
         }
 
         currentWeapon = newWeapon;
-        currentWeapon.transform.SetParent(firePoint);
-        if (currentWeapon.name == "Burrito") // shame on you ryan for your spaghetti code
+
+        // {
+        //     currentWeapon.transform.SetParent(transform);
+
+        //     // Use firePoint's current facing direction to push the burrito slightly in front of the player
+        //     Vector3 facingDir = firePoint.up; // matches how firePoint's rotation is set elsewhere (angle - 90)
+        //     Vector3 forwardOffset = facingDir * 1f;   // tweak "1f" to taste — how far in front
+        //     Vector3 upOffset = Vector3.up * 2.3f;      // keep your existing vertical offset
+
+        //     currentWeapon.transform.position = transform.position + forwardOffset + upOffset;
+        //     currentWeapon.transform.localRotation = Quaternion.identity; // stays upright, doesn't rotate with aim
+        // }
+        // else
+        // {
+            currentWeapon.transform.SetParent(firePoint);
+            currentWeapon.transform.localPosition = Vector3.zero;
+            currentWeapon.transform.localRotation = Quaternion.identity * new Quaternion(0, 0, -1, 0);
+
+            if (currentWeapon.weaponName == "Burrito")
         {
-            currentWeapon.transform.localPosition = new Vector3(0f, 2.3f);    
+            currentWeapon.transform.localPosition += new Vector3(0, 2.3f, 0);
         }
-        currentWeapon.transform.localRotation = Quaternion.identity * new Quaternion(0, 0, -1, 0);
+        // }
+
         currentWeapon.gameObject.SetActive(true);
         if (currentWeapon.GetComponent<MeleeWeapon>() != null)
         {
