@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(speedX, speedY);
 
         // find the dominant direction for the bullet to fire
+        Vector2 velocity = new Vector2(speedX, speedY);
+        animator.SetFloat("Speed", velocity.magnitude);
 
-        // find the dominant direction for the bullet to fire
         if (speedX != 0f || speedY != 0f)
         {
             Vector2 facingDir;
@@ -38,14 +39,12 @@ public class PlayerController : MonoBehaviour
             // Rotate ONLY the firePoint, not the player's visual transform
             firePoint.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
 
-            Vector2 velocity = new Vector2(speedX, speedY);
-            animator.SetFloat("Speed", velocity.magnitude);
-
             if (velocity.sqrMagnitude > 0.01f)
             {
                 if (Mathf.Abs(speedY) > Mathf.Abs(speedX))
                 {
                     animator.SetInteger("Direction", speedY > 0 ? 1 : 0); // Up : Down
+                    spriteRenderer.flipX = false; // forward/back sprites are never mirrored
                 }
                 else
                 {
@@ -53,10 +52,6 @@ public class PlayerController : MonoBehaviour
                     spriteRenderer.flipX = speedX > 0; // mirror for left
                 }
             }
-            // else
-            // {
-            //     animator.SetBool("Idle", true);
-            // }
         }
 
         // if (speedX != 0f || speedY != 0f)
