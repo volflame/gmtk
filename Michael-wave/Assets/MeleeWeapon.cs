@@ -7,10 +7,8 @@ public class MeleeWeapon : Weapon
     private float attackTimer = 0f;
     private bool isAttacking = false;
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
-
         if (isAttacking)
         {
             attackTimer += Time.deltaTime;
@@ -19,7 +17,6 @@ public class MeleeWeapon : Weapon
                 attackTimer = 0f;
                 isAttacking = false;
                 meleeHitbox.SetActive(false);
-                StartCooldown(); // <-- moved here: cooldown begins AFTER the swing ends
             }
         }
     }
@@ -30,6 +27,6 @@ public class MeleeWeapon : Weapon
 
         meleeHitbox.SetActive(true);
         isAttacking = true;
-        // no StartCooldown() here anymore
+        StartCooldown();
     }
 }
