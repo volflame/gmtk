@@ -41,7 +41,7 @@ public class MeleeWeapon : Weapon
         print(CanAttack);
         if (!CanAttack || isAttacking) return;
 
-        // meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
+        meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
         meleeHitbox.SetActive(true);
         isAttacking = true;
         StartCooldown();
@@ -50,7 +50,7 @@ public class MeleeWeapon : Weapon
     public override void PhaseAttack(Transform firePoint)
     {
         if (!CanAttack || isAttacking) return;
-        // meleeHitbox.transform.rotation = firePoint.rotation;
+        meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
         StartCooldown();

@@ -1799,7 +1799,7 @@ MonoBehaviour:
   firePoint: {fileID: 968817818}
   currentWeapon: {fileID: 57702452690559884}
   timer: {fileID: 2141289275}
-  countdown: 30
+  countdown: 10
   secondPhase: 0
 --- !u!95 &768041000
 Animator:
