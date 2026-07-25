@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 animator.SetInteger("Direction", 2); // Side
-                spriteRenderer.flipX = speedX < 0; // mirror for left
+                spriteRenderer.flipX = speedX > 0; // mirror for right
             }
         }
 

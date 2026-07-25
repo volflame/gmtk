@@ -1161,6 +1161,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   weapon: {fileID: 0}
+  animator: {fileID: 768041000}
+  spriteRenderer: {fileID: 768040995}
 --- !u!212 &768040995
 SpriteRenderer:
   m_ObjectHideFlags: 0
