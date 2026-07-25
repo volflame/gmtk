@@ -1,39 +1,35 @@
-using System.Collections;
-using UnityEditor.Callbacks;
-using UnityEngine;
-using UnityEngine.TextCore;
 using System;
+using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Shared Movement")]
     public float moveSpeed = 2f;
-    Rigidbody2D rb;
-    Transform target;
-    Vector2 moveDirection;
+    protected Rigidbody2D rb;
+    protected Transform target;
+    protected Vector2 moveDirection;
 
-    float health, maxHealth = 3f;
+    [Header("Shared Health")]
+    protected float health;
+    public float maxHealth = 3f;
 
-    private enum MovementState
-    {
-        Free,
-        Knocked,
-    }
+    protected bool isKnocked = false;
 
-    private MovementState movementState;
+    private float speedMultiplier = 1f;
+    private int slowStacks = 0; // handles overlapping slow zones cleanly
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    void Start()
+
+    protected virtual void Start()
     {
         target = GameObject.Find("Player").transform;
         health = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (target)
         {
@@ -43,27 +39,34 @@ public class Enemy : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             rb.rotation = angle;
         }
+
+        OnUpdate(); // hook for subclass-specific per-frame logic (e.g. fire timers)
     }
 
     private void FixedUpdate()
     {
-        switch (movementState)
+        if (isKnocked)
         {
-            case MovementState.Free:
-                if (target)
-                {
-                    rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed * speedMultiplier;
-                }
-                break;
-            case MovementState.Knocked:
-                if (rb.linearVelocity.magnitude < 0.1f)
-                {
-                    rb.linearVelocity = Vector2.zero;
-                    movementState = MovementState.Free;
-                }
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            HandleKnockbackRecovery();
+        }
+        else
+        {
+            Move(); // subclass-specific movement/positioning logic
+        }
+    }
+
+    // Subclasses implement their own movement behavior here
+    protected abstract void Move();
+
+    // Optional hook for subclasses that need per-frame logic outside movement (e.g. shooting cooldowns)
+    protected virtual void OnUpdate() { }
+
+    protected virtual void HandleKnockbackRecovery()
+    {
+        if (rb.linearVelocity.magnitude < 0.1f)
+        {
+            rb.linearVelocity = Vector2.zero;
+            isKnocked = false;
         }
     }
 
@@ -77,9 +80,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Die()
+    protected virtual void Die()
     {
-        // Tell the wave spawner this enemy is gone
         if (WaveSpawner.Instance != null)
         {
             WaveSpawner.Instance.EnemyDied();
@@ -88,16 +90,11 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // knockback implementation
-
     public void KnockBack(Vector2 direction, float knockbackForce)
     {
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
-        movementState = MovementState.Knocked;
+        isKnocked = true;
     }
-
-    private float speedMultiplier = 1f;
-    private int slowStacks = 0; // handles overlapping zones cleanly
 
     public void ApplySlow(float multiplier)
     {
@@ -114,4 +111,6 @@ public class Enemy : MonoBehaviour
             speedMultiplier = 1f;
         }
     }
+
+    protected float CurrentSpeed => moveSpeed * speedMultiplier;
 }
