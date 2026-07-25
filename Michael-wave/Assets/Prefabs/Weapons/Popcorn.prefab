@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Popcorn
   coldSprite: {fileID: -4903261317034834871, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
+  hotSprite: {fileID: 6034572993221791165, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
   cooldown: 0.3
   timer: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEditor.ShaderGraph.Internal;
 using Cinemachine;
@@ -17,6 +18,11 @@ public class PlayerWeaponController : MonoBehaviour
     public bool secondPhase = false;
     public float impulseShakeForce = 1f;
     private CinemachineImpulseSource impulseSource;
+
+    public Image powerupIcon;
+    public Image activeGlow;
+    public float glowFadeDuration = 0.3f;
+    private Coroutine glowFadeRoutine;
 
 
     void Awake()
@@ -36,9 +42,13 @@ public class PlayerWeaponController : MonoBehaviour
             }
         }
 
-        if (countdown <= startSecondPhase)
+        if (countdown <= startSecondPhase && !secondPhase)
         {
             secondPhase = true;
+            if (currentWeapon != null && currentWeapon != defaultWeapon)
+            {
+                powerupIcon.sprite = currentWeapon.hotSprite; // instant swap, no fade
+            }
         }
 
         if (secondPhase)
@@ -67,6 +77,10 @@ public class PlayerWeaponController : MonoBehaviour
             defaultWeapon.transform.localPosition += new Vector3(0, 2.3f, 0);
             timer.color = Color.white;
             timer.gameObject.SetActive(false);
+
+            if (glowFadeRoutine != null) StopCoroutine(glowFadeRoutine);
+            Color ic = powerupIcon.color; ic.a = 0f; powerupIcon.color = ic;
+            Color gc = activeGlow.color; gc.a = 0f; activeGlow.color = gc;
         }
     }
 
@@ -116,6 +130,26 @@ public class PlayerWeaponController : MonoBehaviour
             currentWeapon.GetComponent<MeleeWeapon>().isAttacking = false;
             currentWeapon.gameObject.SetActive(false);
         }
+
+        powerupIcon.sprite = newWeapon.coldSprite;
+        Color pc = powerupIcon.color; pc.a = 1f; powerupIcon.color = pc; // instant, no fade for the icon itself
+
+        if (glowFadeRoutine != null) StopCoroutine(glowFadeRoutine);
+        glowFadeRoutine = StartCoroutine(FadeGlowIn());
+    }
+
+    private IEnumerator FadeGlowIn()
+    {
+        float t = 0f;
+        Color start = activeGlow.color;
+        while (t < glowFadeDuration)
+        {
+            t += Time.deltaTime;
+            float a = Mathf.Lerp(start.a, 1f, t / glowFadeDuration);
+            activeGlow.color = new Color(start.r, start.g, start.b, a);
+            yield return null;
+        }
+        activeGlow.color = new Color(start.r, start.g, start.b, 1f);
     }
 
     public void CameraShake()
