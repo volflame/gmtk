@@ -4,11 +4,11 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float moveSpeed;
-    public Weapon weapon;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
     float speedX, speedY;
     Rigidbody2D rb;
+    public Transform firePoint;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -21,21 +21,50 @@ public class PlayerController : MonoBehaviour
         speedY = Input.GetAxisRaw("Vertical") * moveSpeed;
         rb.linearVelocity = new Vector2(speedX, speedY);
 
-        Vector2 velocity = new Vector2(speedX, speedY);
-        animator.SetFloat("Speed", velocity.magnitude);
+        // find the dominant direction for the bullet to fire
 
-        if (velocity.sqrMagnitude > 0.01f)
+        // find the dominant direction for the bullet to fire
+        if (speedX != 0f || speedY != 0f)
         {
-            if (Mathf.Abs(speedY) > Mathf.Abs(speedX))
-            {
-                animator.SetInteger("Direction", speedY > 0 ? 1 : 0); // Up : Down
-            }
+            Vector2 facingDir;
+
+            if (Mathf.Abs(speedX) > Mathf.Abs(speedY))
+                facingDir = new Vector2(Mathf.Sign(speedX), 0f);
             else
+                facingDir = new Vector2(0f, Mathf.Sign(speedY));
+
+            float angle = Mathf.Atan2(facingDir.y, facingDir.x) * Mathf.Rad2Deg;
+
+            // Rotate ONLY the firePoint, not the player's visual transform
+            firePoint.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+
+            Vector2 velocity = new Vector2(speedX, speedY);
+            animator.SetFloat("Speed", velocity.magnitude);
+
+            if (velocity.sqrMagnitude > 0.01f)
             {
-                animator.SetInteger("Direction", 2); // Side
-                spriteRenderer.flipX = speedX > 0; // mirror for right
+                if (Mathf.Abs(speedY) > Mathf.Abs(speedX))
+                {
+                    animator.SetInteger("Direction", speedY > 0 ? 1 : 0); // Up : Down
+                }
+                else
+                {
+                    animator.SetInteger("Direction", 2); // Side
+                    spriteRenderer.flipX = speedX > 0; // mirror for left
+                }
             }
+            // else
+            // {
+            //     animator.SetBool("Idle", true);
+            // }
         }
+
+        // if (speedX != 0f || speedY != 0f)
+        // {
+        //     float angle = Mathf.Atan2(speedY, speedX) * Mathf.Rad2Deg;
+        //     angle = Mathf.Round(angle / 45f) * 45f; // snap to nearest 45°
+        //     transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        // }
 
         // if (Input.GetKeyDown(KeyCode.Z))
         // {

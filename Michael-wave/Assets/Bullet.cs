@@ -16,6 +16,7 @@ public class Bullet : MonoBehaviour
     {
         // THIS IS WHERE YOU CHECK IF YOU'RE HITTING ENEMY
         // DAMAGE ENEMY
+        // Debug.Log($"Triggered by: {collision.gameObject.name}, layer: {LayerMask.LayerToName(collision.gameObject.layer)}");
         Enemy enemy = collision.GetComponent<Enemy>();
         if (enemy != null)
         {

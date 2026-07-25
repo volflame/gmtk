@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
             case MovementState.Free:
                 if (target)
                 {
-                    rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+                    rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed * speedMultiplier;
                 }
                 break;
             case MovementState.Knocked:
@@ -94,5 +94,24 @@ public class Enemy : MonoBehaviour
     {
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         movementState = MovementState.Knocked;
+    }
+
+    private float speedMultiplier = 1f;
+    private int slowStacks = 0; // handles overlapping zones cleanly
+
+    public void ApplySlow(float multiplier)
+    {
+        slowStacks++;
+        speedMultiplier = multiplier; // simplest: just use the latest slow applied
+    }
+
+    public void RemoveSlow()
+    {
+        slowStacks--;
+        if (slowStacks <= 0)
+        {
+            slowStacks = 0;
+            speedMultiplier = 1f;
+        }
     }
 }

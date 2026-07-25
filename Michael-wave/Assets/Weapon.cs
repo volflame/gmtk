@@ -1,25 +1,21 @@
 using UnityEngine;
+using TMPro;
+using System;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public string weaponName;
     public float cooldown = 0.3f;
-    protected float cooldownTimer = 0f;
+    private float cooldownReadyTime = 0f;
+    public TextMeshProUGUI timer;
 
-    protected virtual void Update()
-    {
-        if (cooldownTimer > 0f)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-    }
+    public bool CanAttack => Time.time >= cooldownReadyTime;
 
-    public bool CanAttack => cooldownTimer <= 0f;
-
-    // Each weapon type implements its own attack behavior
     public abstract void Attack(Transform firePoint);
+    public abstract void PhaseAttack(Transform firePoint);
 
-    protected void StartCooldown()
+    public void StartCooldown()
     {
-        cooldownTimer = cooldown;
+        cooldownReadyTime = Time.time + cooldown;
     }
 }

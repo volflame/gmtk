@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6443778941866297555}
   - component: {fileID: 8306713316201628929}
   - component: {fileID: 3553420091208027542}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -133,7 +133,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
