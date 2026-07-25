@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Ramen
   coldSprite: {fileID: 712646119667547995, guid: e4e528ab89e57ed49af8e4c112b60b7d, type: 3}
+  hotSprite: {fileID: -2720830966721794400, guid: e4e528ab89e57ed49af8e4c112b60b7d, type: 3}
   cooldown: 0.3
   timer: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}

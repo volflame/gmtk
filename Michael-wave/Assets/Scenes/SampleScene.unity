@@ -251,8 +251,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1771982190}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.x
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.y
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7475540813241666274, guid: 602d799cabf4fee489b6e4d6375ee4fc, type: 3}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.b
-      value: 0.06282711
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.g
@@ -260,7 +272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -386,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbcecf370c7774d0385712f51735bf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 6039620372868440363, guid: 87684e4d7845b45b4bc0a9bfb49f4ac0, type: 3}
+  enemyTypes: []
   spawnPoints:
   - {fileID: 544219058}
   - {fileID: 869466416}
@@ -1835,10 +1851,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 968817818}
   currentWeapon: {fileID: 57702452690559884}
+  defaultWeapon: {fileID: 0}
   timer: {fileID: 2141289275}
   countdown: 10
   secondPhase: 0
   impulseShakeForce: 1
+  powerupIcon: {fileID: 1829701530}
+  activeGlow: {fileID: 614002251}
+  glowFadeDuration: 0.3
 --- !u!95 &768041000
 Animator:
   serializedVersion: 7
@@ -2104,15 +2124,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 57702452690559884}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.x
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.y
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 712646119667547995, guid: e4e528ab89e57ed49af8e4c112b60b7d, type: 3}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.b
-      value: 0.76034164
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2714,16 +2750,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2098705522}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.x
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.y
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8488082480229581224, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.g
-      value: 0.8993242
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4190,15 +4242,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1795214407}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.x
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Size.y
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4903261317034834871, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.g
-      value: 0.9167996
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153541502342675033, guid: 20108fa8f5f754d24a8f0976239b8aca, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

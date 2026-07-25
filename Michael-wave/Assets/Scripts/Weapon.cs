@@ -6,6 +6,7 @@ public abstract class Weapon : MonoBehaviour
 {
     public string weaponName;
     public Sprite coldSprite;
+    public Sprite hotSprite;
     public float cooldown = 0.3f;
     private float cooldownReadyTime = 0f;
     public TextMeshProUGUI timer;

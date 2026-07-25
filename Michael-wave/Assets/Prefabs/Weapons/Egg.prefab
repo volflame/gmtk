@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Egg
   coldSprite: {fileID: 8488082480229581224, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
+  hotSprite: {fileID: 368560520376304578, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
   cooldown: 2
   timer: {fileID: 0}
   meleeHitbox: {fileID: 6567276056661087806}
