@@ -15,10 +15,12 @@ public class MeleeWeapon : Weapon
     public int cheeseZoneCount = 3;
     public float cheeseSpawnRadius = 8f;
     public float cheeseMinDistance = 2f;
+    private PlayerWeaponController weaponController;
 
     private void Awake()
     {
         original = meleeHitbox.transform.localScale;
+        weaponController = gameObject.GetComponentInParent<PlayerWeaponController>();
     }
 
     private void Update()
@@ -53,7 +55,10 @@ public class MeleeWeapon : Weapon
         meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
-        StartCooldown();
+        if (weaponController != null)
+        {
+            weaponController.CameraShake();
+        }
 
         if (weaponName == "Burrito")
         {
@@ -65,7 +70,8 @@ public class MeleeWeapon : Weapon
         // Ryan why are you writing genuine spaghetti code lock in
         if (weaponName == "Egg")
         {
-            attackDuration = 2.0f;
+            attackDuration = 0.5f;
+            cooldown = 0.5f;
             Debug.Log("Eggyweggy");
             StartCoroutine(Expand());
 
@@ -81,6 +87,7 @@ public class MeleeWeapon : Weapon
             GameObject bulletRight = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bulletRight.GetComponent<Rigidbody2D>().AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
         }
+        StartCooldown();
     }
 
     public float expandDuration = 0.2f; // time to grow

@@ -2,6 +2,9 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using UnityEditor.ShaderGraph.Internal;
+using Cinemachine;
+using UnityEngine.AI;
 
 public class PlayerWeaponController : MonoBehaviour
 {
@@ -11,11 +14,14 @@ public class PlayerWeaponController : MonoBehaviour
     public float countdown = 10f;
     private float startSecondPhase;
     public bool secondPhase = false;
+    public float impulseShakeForce = 1f;
+    private CinemachineImpulseSource impulseSource;
 
 
     void Awake()
     {
         startSecondPhase = countdown / 2;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
     void Update()
     {
@@ -58,6 +64,7 @@ public class PlayerWeaponController : MonoBehaviour
     public void EquipWeapon(Weapon newWeapon)
     {
         countdown = 10f;
+        secondPhase = false;
         timer.color = Color.white;
         timer.gameObject.SetActive(true);
         if (currentWeapon != null)
@@ -67,12 +74,27 @@ public class PlayerWeaponController : MonoBehaviour
 
         currentWeapon = newWeapon;
         currentWeapon.transform.SetParent(firePoint);
-        currentWeapon.transform.localPosition = new Vector3(0f, 2.3f);
+        if (currentWeapon.name == "Burrito") // shame on you ryan for your spaghetti code
+        {
+            currentWeapon.transform.localPosition = new Vector3(0f, 2.3f);    
+        }
         currentWeapon.transform.localRotation = Quaternion.identity * new Quaternion(0, 0, -1, 0);
         currentWeapon.gameObject.SetActive(true);
         if (currentWeapon.GetComponent<MeleeWeapon>() != null)
         {
             currentWeapon.gameObject.SetActive(false);
+        }
+    }
+
+    public void CameraShake()
+    {
+        if (impulseSource)
+        {
+            impulseSource.GenerateImpulseWithForce(impulseShakeForce);
+        }
+        else
+        {
+            Debug.Log("Not found");
         }
     }
 }

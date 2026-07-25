@@ -177,7 +177,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -203,6 +203,6 @@ MonoBehaviour:
   fireForce: 20
   cheeseZonePrefab: {fileID: 1004573954756294552, guid: cec1a4848903d4ff2babb0ca8da86284, type: 3}
   cheeseZoneCount: 3
-  cheeseSpawnRadius: 5
+  cheeseSpawnRadius: 2
   cheeseMinDistance: 2
   expandDuration: 0.2
