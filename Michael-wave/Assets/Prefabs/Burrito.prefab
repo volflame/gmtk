@@ -194,6 +194,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94bd4bf0fe36e44bd99e142e834a96c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Burrito
   cooldown: 0.3
+  timer: {fileID: 0}
   meleeHitbox: {fileID: 4089279290078793452}
   attackDuration: 0.3
+  bulletPrefab: {fileID: 0}
+  fireForce: 20
+  cheeseZonePrefab: {fileID: 1004573954756294552, guid: cec1a4848903d4ff2babb0ca8da86284, type: 3}
+  cheeseZoneCount: 3
+  cheeseSpawnRadius: 5
+  cheeseMinDistance: 2
+  expandDuration: 0.2
