@@ -4,8 +4,16 @@ public class WaveSpawner : MonoBehaviour
 {
     public static WaveSpawner Instance;
 
+    [System.Serializable]
+    public class EnemySpawnEntry
+    {
+        public GameObject enemyPrefab;
+        [Tooltip("Relative chance of this enemy being picked. Higher = more common.")]
+        public float weight = 1f;
+    }
+
     [Header("Enemy Setup")]
-    public GameObject enemyPrefab;
+    public EnemySpawnEntry[] enemyTypes; // e.g. Melee weight 2, Ranged weight 1
     public Transform[] spawnPoints;
 
     [Header("Wave Settings")]
@@ -46,7 +54,10 @@ public class WaveSpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (spawnPoints.Length == 0 || enemyPrefab == null) return;
+        if (spawnPoints.Length == 0 || enemyTypes.Length == 0) return;
+
+        GameObject enemyPrefab = PickRandomEnemyType();
+        if (enemyPrefab == null) return;
 
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
@@ -55,6 +66,31 @@ public class WaveSpawner : MonoBehaviour
         Vector3 spawnPos = spawnPoint.position + (Vector3)randomOffset;
 
         Instantiate(enemyPrefab, spawnPos, spawnPoint.rotation);
+    }
+
+    private GameObject PickRandomEnemyType()
+    {
+        float totalWeight = 0f;
+        foreach (var entry in enemyTypes)
+        {
+            totalWeight += entry.weight;
+        }
+
+        if (totalWeight <= 0f) return null;
+
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        foreach (var entry in enemyTypes)
+        {
+            cumulative += entry.weight;
+            if (roll <= cumulative)
+            {
+                return entry.enemyPrefab;
+            }
+        }
+
+        return enemyTypes[enemyTypes.Length - 1].enemyPrefab; // fallback, shouldn't normally hit
     }
 
     // Called by Enemy.cs when an enemy dies

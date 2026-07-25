@@ -55,7 +55,7 @@ public class MeleeWeapon : Weapon
         meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
-        if (weaponController != null)
+        if (weaponController != null && weaponName != "Default") // RYAN ISTG STOP YOUR SPAGHETTI CODE
         {
             weaponController.CameraShake();
         }
@@ -93,7 +93,7 @@ public class MeleeWeapon : Weapon
     public float expandDuration = 0.2f; // time to grow
     IEnumerator Expand()
     {
-        Vector3 expanded = original * 2f;
+        Vector3 expanded = original * 3f;
 
         // Grow
         float t = 0f;

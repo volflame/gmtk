@@ -10,6 +10,7 @@ public class PlayerWeaponController : MonoBehaviour
 {
     public Transform firePoint;
     public Weapon currentWeapon; // assign default, or set via pickup
+    public Weapon defaultWeapon;
     public TextMeshProUGUI timer;
     public float countdown = 10f;
     private float startSecondPhase;
@@ -25,9 +26,12 @@ public class PlayerWeaponController : MonoBehaviour
     }
     void Update()
     {
-        countdown -= Time.deltaTime;
-        // countdown = (float)Math.Round(countdown, 2);
-        timer.text = countdown.ToString();
+        if (currentWeapon.weaponName != "Default")
+        {
+            countdown -= Time.deltaTime;
+            // countdown = (float)Math.Round(countdown, 2);
+            timer.text = countdown.ToString();    
+        }
 
         if (countdown <= startSecondPhase)
         {
@@ -55,7 +59,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
         if (countdown <= 0)
         {
-            currentWeapon = null;
+            currentWeapon = defaultWeapon;
             timer.color = Color.white;
             timer.gameObject.SetActive(false);
         }
