@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float moveSpeed;
     public Weapon weapon;
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
     float speedX, speedY;
     Rigidbody2D rb;
     void Start()
@@ -34,28 +36,43 @@ public class PlayerController : MonoBehaviour
             // Subtract 90 if your sprite's "forward" art faces UP by default.
             // Remove the "- 90f" if your sprite faces RIGHT by default.
             transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+            Vector2 velocity = new Vector2(speedX, speedY);
+            animator.SetFloat("Speed", velocity.magnitude);
+
+            if (velocity.sqrMagnitude > 0.01f)
+            {
+                if (Mathf.Abs(speedY) > Mathf.Abs(speedX))
+                {
+                    animator.SetInteger("Direction", speedY > 0 ? 1 : 0); // Up : Down
+                }
+                else
+                {
+                    animator.SetInteger("Direction", 2); // Side
+                    spriteRenderer.flipX = speedX < 0; // mirror for left
+                }
+            }
+
+            // if (speedX != 0f || speedY != 0f)
+            // {
+            //     float angle = Mathf.Atan2(speedY, speedX) * Mathf.Rad2Deg;
+            //     angle = Mathf.Round(angle / 45f) * 45f; // snap to nearest 45°
+            //     transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.Z))
+            // {
+            //     weapon.Fire();
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.X))
+            // {
+            //     weapon.MeleeAttack();
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.C))
+            // {
+            //     weapon.SpecialFire();
+            // }
         }
-
-        // if (speedX != 0f || speedY != 0f)
-        // {
-        //     float angle = Mathf.Atan2(speedY, speedX) * Mathf.Rad2Deg;
-        //     angle = Mathf.Round(angle / 45f) * 45f; // snap to nearest 45°
-        //     transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.Z))
-        // {
-        //     weapon.Fire();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.X))
-        // {
-        //     weapon.MeleeAttack();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.C))
-        // {
-        //     weapon.SpecialFire();
-        // }
     }
 }
