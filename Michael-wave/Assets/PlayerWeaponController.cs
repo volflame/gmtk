@@ -57,7 +57,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon newWeapon)
     {
-        countdown = 30f;
+        countdown = 10f;
         timer.color = Color.white;
         timer.gameObject.SetActive(true);
         if (currentWeapon != null)
