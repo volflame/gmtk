@@ -43,16 +43,20 @@ public class MeleeWeapon : Weapon
         print(CanAttack);
         if (!CanAttack || isAttacking) return;
 
-        meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
+        // meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
         meleeHitbox.SetActive(true);
         isAttacking = true;
+        if (weaponName == "Egg")
+        {
+            StartCoroutine(Expand(1.5f));
+        }
         StartCooldown();
     }
 
     public override void PhaseAttack(Transform firePoint)
     {
         if (!CanAttack || isAttacking) return;
-        meleeHitbox.transform.rotation = firePoint.rotation;
+        // meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
         if (weaponController != null && weaponName != "Default") // RYAN ISTG STOP YOUR SPAGHETTI CODE
@@ -73,7 +77,7 @@ public class MeleeWeapon : Weapon
             attackDuration = 0.5f;
             cooldown = 0.5f;
             Debug.Log("Eggyweggy");
-            StartCoroutine(Expand());
+            StartCoroutine(Expand(3f));
 
             GameObject bulletUp = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bulletUp.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
@@ -91,9 +95,9 @@ public class MeleeWeapon : Weapon
     }
 
     public float expandDuration = 0.2f; // time to grow
-    IEnumerator Expand()
+    IEnumerator Expand(float factor)
     {
-        Vector3 expanded = original * 3f;
+        Vector3 expanded = original * factor;
 
         // Grow
         float t = 0f;

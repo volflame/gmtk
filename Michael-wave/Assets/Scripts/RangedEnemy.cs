@@ -57,7 +57,7 @@ public class RangedEnemy : Enemy
     {
 
         if (projectilePrefab == null) return;
-        Debug.Log("Hello");
+        // Debug.Log("Hello");
 
         GameObject proj = Instantiate(projectilePrefab, transform.position, transform.rotation);
         Rigidbody2D projRb = proj.GetComponent<Rigidbody2D>();
