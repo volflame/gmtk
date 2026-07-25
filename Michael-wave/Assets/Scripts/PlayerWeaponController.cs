@@ -62,7 +62,9 @@ public class PlayerWeaponController : MonoBehaviour
         }
         if (countdown <= 0)
         {
-            currentWeapon = defaultWeapon;
+            EquipWeapon(defaultWeapon);
+            defaultWeapon.cooldown = 0;
+            defaultWeapon.transform.localPosition += new Vector3(0, 2.3f, 0);
             timer.color = Color.white;
             timer.gameObject.SetActive(false);
         }
@@ -74,7 +76,11 @@ public class PlayerWeaponController : MonoBehaviour
         secondPhase = false;
         timer.color = Color.white;
         timer.gameObject.SetActive(true);
-        if (currentWeapon != null)
+        if (currentWeapon != null && currentWeapon != defaultWeapon)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+        else if (currentWeapon != null)
         {
             currentWeapon.gameObject.SetActive(false);
         }
@@ -94,11 +100,11 @@ public class PlayerWeaponController : MonoBehaviour
         // }
         // else
         // {
-            currentWeapon.transform.SetParent(firePoint);
-            currentWeapon.transform.localPosition = Vector3.zero;
-            currentWeapon.transform.localRotation = Quaternion.identity * new Quaternion(0, 0, -1, 0);
+        currentWeapon.transform.SetParent(firePoint);
+        currentWeapon.transform.localPosition = Vector3.zero;
+        currentWeapon.transform.localRotation = Quaternion.identity * new Quaternion(0, 0, -1, 0);
 
-            if (currentWeapon.weaponName == "Burrito")
+        if (currentWeapon.weaponName == "Burrito")
         {
             currentWeapon.transform.localPosition += new Vector3(0, 2.3f, 0);
         }
@@ -107,6 +113,7 @@ public class PlayerWeaponController : MonoBehaviour
         currentWeapon.gameObject.SetActive(true);
         if (currentWeapon.GetComponent<MeleeWeapon>() != null)
         {
+            currentWeapon.GetComponent<MeleeWeapon>().isAttacking = false;
             currentWeapon.gameObject.SetActive(false);
         }
     }

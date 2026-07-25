@@ -6,7 +6,7 @@ public class MeleeWeapon : Weapon
     public GameObject meleeHitbox;
     public float attackDuration = 0.3f;
     private float attackTimer = 0f;
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     public GameObject bulletPrefab;
     public float fireForce = 20f;
     private Vector3 original;
@@ -41,6 +41,8 @@ public class MeleeWeapon : Weapon
     public override void Attack(Transform firePoint)
     {
         print(CanAttack);
+        print(isAttacking);
+        print(weaponName);
         if (!CanAttack || isAttacking) return;
 
         // meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
