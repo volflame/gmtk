@@ -105,7 +105,7 @@ MonoBehaviour:
   hotSprite: {fileID: 6034572993221791165, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
   duration: 45
   secondPhaseAt: 15
-  cooldown: 0.1
+  cooldown: 0.15
   holdToFire: 1
   holdToFirePhase2: 0
   timer: {fileID: 0}
