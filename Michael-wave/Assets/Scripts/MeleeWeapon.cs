@@ -12,6 +12,8 @@ public class MeleeWeapon : Weapon
     private Vector3 original;
 
     public GameObject cheeseZonePrefab;
+    private bool phaseAttackActive = false;      // this swing is a second-phase swing
+    private bool cheeseSpawnedThisSwing = false; // caps cheese at one batch per swing
     public int cheeseZoneCount = 3;
     public float cheeseSpawnRadius = 8f;
     public float cheeseMinDistance = 2f;
@@ -84,6 +86,8 @@ public class MeleeWeapon : Weapon
         // meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
         meleeHitbox.SetActive(true);
         isAttacking = true;
+        phaseAttackActive = false;
+        cheeseSpawnedThisSwing = false;
         if (hitboxCollider != null)
         {
             hitboxCollider.enabled = false;
@@ -106,6 +110,8 @@ public class MeleeWeapon : Weapon
         // meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
+        phaseAttackActive = true;
+        cheeseSpawnedThisSwing = false;
         if (hitboxCollider != null)
         {
             hitboxCollider.enabled = false;
@@ -130,7 +136,6 @@ public class MeleeWeapon : Weapon
             Vector3 bigPos = meleeHitbox.transform.localPosition;
             bigPos.y = 10f;
             meleeHitbox.transform.localPosition = bigPos;
-            SpawnCheeseZones(firePoint);
             Debug.Log("Burr burrito");
         }
 
@@ -171,12 +176,23 @@ public class MeleeWeapon : Weapon
         meleeHitbox.transform.localScale = expanded;
     }
 
-    private void SpawnCheeseZones(Transform firePoint)
+    // Called by Bullet when this hitbox damages an enemy. Only a phase-2 swing drops cheese,
+    // and only once per swing no matter how many enemies the hitbox overlaps.
+    public void TrySpawnCheeseOnHit(Vector3 enemyPosition)
+    {
+        if (!phaseAttackActive || cheeseSpawnedThisSwing) return;
+        if (cheeseZonePrefab == null) return;
+
+        cheeseSpawnedThisSwing = true;
+        SpawnCheeseZones(enemyPosition);
+    }
+
+    private void SpawnCheeseZones(Vector3 center)
     {
         for (int i = 0; i < cheeseZoneCount; i++)
         {
             Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(cheeseMinDistance, cheeseSpawnRadius);
-            Vector3 spawnPos = firePoint.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+            Vector3 spawnPos = center + new Vector3(randomOffset.x, randomOffset.y, 0f);
 
             Instantiate(cheeseZonePrefab, spawnPos, Quaternion.identity);
         }

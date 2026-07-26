@@ -30,6 +30,14 @@ public class Bullet : MonoBehaviour
         {
             Vector2 direction = (enemy.transform.position - transform.position).normalized;
             enemy.TakeDamage(damage, direction, knockbackForce);
+
+            // Melee hitboxes carry their weapon on the same object; a second-phase swing
+            // drops cheese where it connected. No-ops for plain projectiles.
+            MeleeWeapon meleeWeapon = GetComponent<MeleeWeapon>();
+            if (meleeWeapon != null)
+            {
+                meleeWeapon.TrySpawnCheeseOnHit(enemy.transform.position);
+            }
         }
 
         // Destroy(gameObject);
