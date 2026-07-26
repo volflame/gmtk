@@ -23,6 +23,12 @@ public class Bullet : MonoBehaviour
             Vector2 direction = (enemy.transform.position - transform.position).normalized;
             enemy.TakeDamage(damage, direction, knockbackForce);
         }
+        
+        BossHurtbox boss = collision.GetComponent<BossHurtbox>();
+        if (boss != null)
+        {
+            boss.TakeDamage(damage);
+        }
 
         // Destroy(gameObject);
         if (gameObject.tag == "Projectile")
