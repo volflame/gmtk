@@ -122,7 +122,8 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (currentWeapon.weaponName == "Burrito")
         {
-            currentWeapon.transform.localPosition += new Vector3(0, 2.3f, 0);
+            currentWeapon.transform.localPosition += new Vector3(0, 7f, 0);
+            currentWeapon.transform.localRotation = Quaternion.identity; // swing animation is already oriented correctly, undo the shared 180 flip
         }
         // }
 

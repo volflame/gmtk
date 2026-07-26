@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6282791451757582366}
   - component: {fileID: 2299443839716088706}
-  - component: {fileID: 8066225457771579225}
+  - component: {fileID: 8066225457771579400}
   - component: {fileID: 7283266287989062642}
   - component: {fileID: 6113640153012653150}
   - component: {fileID: 3610024306013060917}
+  - component: {fileID: 5544332211009999}
   m_Layer: 6
   m_Name: Burrito
   m_TagString: Untagged
@@ -91,8 +92,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &8066225457771579225
-PolygonCollider2D:
+--- !u!61 &8066225457771579400
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -125,22 +126,18 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0429946, y: -0.923323}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.56, y: 1.56}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.5, y: -0.28866667}
-      - {x: 0.5, y: -0.28866667}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 5.092076, y: 3.339025}
+  m_EdgeRadius: 0
 --- !u!114 &7283266287989062642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,10 +198,36 @@ MonoBehaviour:
   timer: {fileID: 0}
   meleeHitbox: {fileID: 4089279290078793452}
   attackDuration: 0.3
+  isAttacking: 0
   bulletPrefab: {fileID: 0}
   fireForce: 20
   cheeseZonePrefab: {fileID: 1004573954756294552, guid: cec1a4848903d4ff2babb0ca8da86284, type: 3}
   cheeseZoneCount: 3
   cheeseSpawnRadius: 2
   cheeseMinDistance: 2
+  attackAnimator: {fileID: 5544332211009999}
+  hitboxActiveStart: 0.375
+  hitboxActiveEnd: 0.875
   expandDuration: 0.2
+--- !u!95 &5544332211009999
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4089279290078793452}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4e29a17c6f83d05a9c1e7b2f4386d90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

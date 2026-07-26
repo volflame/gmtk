@@ -17,10 +17,27 @@ public class MeleeWeapon : Weapon
     public float cheeseMinDistance = 2f;
     private PlayerWeaponController weaponController;
 
+    public Animator attackAnimator; // optional: if assigned, attackDuration syncs to its clip length
+
+    // Only the collider needs to be gated to a frame window; the GameObject (sprite/animator)
+    // stays active for the whole attackDuration so the animation keeps playing normally.
+    private Collider2D hitboxCollider;
+    public float hitboxActiveStart = 0.375f; // frame 3 at 8fps
+    public float hitboxActiveEnd = 0.875f;   // frame 7 at 8fps
+
     private void Awake()
     {
         original = meleeHitbox.transform.localScale;
         weaponController = gameObject.GetComponentInParent<PlayerWeaponController>();
+        hitboxCollider = meleeHitbox.GetComponent<Collider2D>();
+        if (attackAnimator != null && attackAnimator.runtimeAnimatorController != null)
+        {
+            AnimationClip[] clips = attackAnimator.runtimeAnimatorController.animationClips;
+            if (clips.Length > 0)
+            {
+                attackDuration = clips[0].length;
+            }
+        }
     }
 
     private void Update()
@@ -28,6 +45,12 @@ public class MeleeWeapon : Weapon
         if (isAttacking)
         {
             attackTimer += Time.deltaTime;
+
+            if (hitboxCollider != null)
+            {
+                hitboxCollider.enabled = attackTimer >= hitboxActiveStart && attackTimer < hitboxActiveEnd;
+            }
+
             if (attackTimer >= attackDuration)
             {
                 attackTimer = 0f;
@@ -48,6 +71,14 @@ public class MeleeWeapon : Weapon
         // meleeHitbox.transform.rotation = firePoint.rotation * new Quaternion(0, 0, -1, 0);
         meleeHitbox.SetActive(true);
         isAttacking = true;
+        if (hitboxCollider != null)
+        {
+            hitboxCollider.enabled = false;
+        }
+        if (attackAnimator != null)
+        {
+            attackAnimator.Play("Swing", 0, 0f);
+        }
         if (weaponName == "Egg")
         {
             StartCoroutine(Expand(1.5f));
@@ -61,6 +92,14 @@ public class MeleeWeapon : Weapon
         // meleeHitbox.transform.rotation = firePoint.rotation;
         meleeHitbox.SetActive(true);
         isAttacking = true;
+        if (hitboxCollider != null)
+        {
+            hitboxCollider.enabled = false;
+        }
+        if (attackAnimator != null)
+        {
+            attackAnimator.Play("Swing", 0, 0f);
+        }
         if (weaponController != null && weaponName != "Default") // RYAN ISTG STOP YOUR SPAGHETTI CODE
         {
             weaponController.CameraShake();
@@ -68,7 +107,10 @@ public class MeleeWeapon : Weapon
 
         if (weaponName == "Burrito")
         {
-            meleeHitbox.transform.localScale = original * 3f;
+            meleeHitbox.transform.localScale = original * 2f;
+            Vector3 bigPos = meleeHitbox.transform.localPosition;
+            bigPos.y = 14f;
+            meleeHitbox.transform.localPosition = bigPos;
             SpawnCheeseZones(firePoint);
             Debug.Log("Burr burrito");
         }
