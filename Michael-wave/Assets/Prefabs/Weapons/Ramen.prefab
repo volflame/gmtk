@@ -107,6 +107,6 @@ MonoBehaviour:
   timer: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}
   whipPrefab: {fileID: 4089279290078793452, guid: 42918dd3a743748499491bd7f43f8426, type: 3}
-  whipDuration: 0.25
+  whipDuration: 0.33333334
   ramenPrefab: {fileID: 1878752187630863480, guid: 98d69812ef3c142849ea7194853a10d6, type: 3}
   fireForce: 20
