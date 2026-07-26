@@ -23,7 +23,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Image activeGlow;
     public float glowFadeDuration = 0.3f;
     private Coroutine glowFadeRoutine;
-
+    public Animator animator;
 
     void Awake()
     {
@@ -60,6 +60,7 @@ public class PlayerWeaponController : MonoBehaviour
         {
             if (currentWeapon != null)
             {
+                animator.SetTrigger("Attack");
                 if (!secondPhase)
                 {
                     currentWeapon.Attack(firePoint);
