@@ -26,7 +26,7 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("Hit Feedback")]
     public Material hitFlashMaterial;
-    public float hitFlashDuration = 0.08f;
+    public float hitFlashDuration = 0.18f;
     private Material originalMaterial;
     private Coroutine hitFlashRoutine;
 

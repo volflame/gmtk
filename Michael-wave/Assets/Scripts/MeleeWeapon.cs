@@ -126,9 +126,9 @@ public class MeleeWeapon : Weapon
 
         if (weaponName == "Burrito")
         {
-            meleeHitbox.transform.localScale = original * 2f;
+            meleeHitbox.transform.localScale = original * 1.5f;
             Vector3 bigPos = meleeHitbox.transform.localPosition;
-            bigPos.y = 14f;
+            bigPos.y = 10f;
             meleeHitbox.transform.localPosition = bigPos;
             SpawnCheeseZones(firePoint);
             Debug.Log("Burr burrito");

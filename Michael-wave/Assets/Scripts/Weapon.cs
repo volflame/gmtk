@@ -8,6 +8,12 @@ public abstract class Weapon : MonoBehaviour
     public Sprite coldSprite;
     public Sprite hotSprite;
     public float cooldown = 0.3f;
+
+    // When true the attack repeats while the fire key is held (rate limited by cooldown),
+    // instead of requiring a fresh press each shot.
+    public bool holdToFire = false;
+    public bool holdToFirePhase2 = false;
+
     private float cooldownReadyTime = 0f;
     public TextMeshProUGUI timer;
 

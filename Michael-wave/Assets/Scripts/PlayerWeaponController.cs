@@ -57,9 +57,12 @@ public class PlayerWeaponController : MonoBehaviour
             timer.color = Color.red;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (currentWeapon != null)
         {
-            if (currentWeapon != null)
+            bool holdToFire = secondPhase ? currentWeapon.holdToFirePhase2 : currentWeapon.holdToFire;
+            bool firing = holdToFire ? Input.GetKey(KeyCode.Z) : Input.GetKeyDown(KeyCode.Z);
+
+            if (firing)
             {
                 animator.SetTrigger("Attack");
                 if (!secondPhase)
