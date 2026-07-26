@@ -226,6 +226,16 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   contactDamage: 1
   contactKnockback: 12
+  dropChance: 0.45
+  drops:
+  - prefab: {fileID: 6133174518793787883, guid: 2e40efa722e574091829043ca782acfd, type: 3}
+    weight: 30
+  - prefab: {fileID: 6133174518793787883, guid: 20bc02c5d6a0b48688427e9113146629, type: 3}
+    weight: 30
+  - prefab: {fileID: 6133174518793787883, guid: 4ababf7e57c74419cbbf9cfcc8514e06, type: 3}
+    weight: 20
+  - prefab: {fileID: 6133174518793787883, guid: 16f49dfcaec884c828d1ca43f2fb53a1, type: 3}
+    weight: 20
   hitFlashMaterial: {fileID: 2100000, guid: b62f4e19d8a3c7541e0b95f3c8d217ae, type: 2}
   hitFlashDuration: 0.18
   chargeRadius: 5

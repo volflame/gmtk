@@ -2,6 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[Serializable]
+public class PowerupDrop
+{
+    public GameObject prefab;
+    public float weight = 1f; // relative odds within the drop table
+}
+
 public abstract class Enemy : MonoBehaviour
 {
     [Header("Shared Movement")]
@@ -23,6 +30,10 @@ public abstract class Enemy : MonoBehaviour
     [Header("Contact Damage")]
     public int contactDamage = 1;
     public float contactKnockback = 12f;
+
+    [Header("Drops")]
+    [Range(0f, 1f)] public float dropChance = 0.45f;
+    public PowerupDrop[] drops;
 
     [Header("Hit Feedback")]
     public Material hitFlashMaterial;
@@ -168,12 +179,40 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        TryDropPowerup(); // must happen before Destroy, while the transform is still valid
+
         if (WaveSpawner.Instance != null)
         {
             WaveSpawner.Instance.EnemyDied();
         }
 
         Destroy(gameObject);
+    }
+
+    private void TryDropPowerup()
+    {
+        if (drops == null || drops.Length == 0) return;
+        if (UnityEngine.Random.value > dropChance) return;
+
+        float totalWeight = 0f;
+        foreach (PowerupDrop drop in drops)
+        {
+            if (drop != null && drop.prefab != null) totalWeight += drop.weight;
+        }
+        if (totalWeight <= 0f) return;
+
+        float roll = UnityEngine.Random.Range(0f, totalWeight);
+        foreach (PowerupDrop drop in drops)
+        {
+            if (drop == null || drop.prefab == null) continue;
+
+            roll -= drop.weight;
+            if (roll <= 0f)
+            {
+                Instantiate(drop.prefab, transform.position, Quaternion.identity);
+                return;
+            }
+        }
     }
 
     public void KnockBack(Vector2 direction, float knockbackForce)
