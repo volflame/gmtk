@@ -45,6 +45,7 @@ public abstract class Enemy : MonoBehaviour
 
         OnUpdate(); // hook for subclass-specific per-frame logic (e.g. fire timers)
     }
+    public SpriteRenderer spriteRenderer; // add this
 
     protected void UpdateAnimatorDirection(Vector3 direction)
     {
@@ -59,6 +60,10 @@ public abstract class Enemy : MonoBehaviour
         else
         {
             animator.SetInteger("Direction", 2); // Side
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = direction.x > 0; // mirror when facing left
+            }
         }
     }
 

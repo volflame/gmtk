@@ -54,7 +54,9 @@ public class ProjectileWeapon : Weapon
         {
             Debug.Log("Whip whip whippity whip");
             GameObject whip = Instantiate(whipPrefab, firePoint.position, firePoint.rotation);
+
             whip.transform.SetParent(firePoint); // follows aim direction while active
+            whip.GetComponent<Animator>().SetTrigger("Fly");
             whip.transform.localPosition = Vector3.zero;
             whip.transform.localRotation = Quaternion.identity;
 

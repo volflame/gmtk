@@ -187,6 +187,7 @@ MonoBehaviour:
   timer: {fileID: 0}
   meleeHitbox: {fileID: 6567276056661087806}
   attackDuration: 0.3
+  isAttacking: 0
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}
   fireForce: 20
   cheeseZonePrefab: {fileID: 0}

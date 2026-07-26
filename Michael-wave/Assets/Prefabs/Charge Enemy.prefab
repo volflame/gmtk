@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 6319185543203305478}
   - component: {fileID: 5526456875675729959}
   - component: {fileID: -1451086847151781977}
-  - component: {fileID: 2188542382958511427}
-  - component: {fileID: 4331444751205880446}
+  - component: {fileID: -3766681146875134129}
   m_Layer: 7
-  m_Name: Ranged Enemy
+  m_Name: Charge Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6603774, g: 0.19001423, b: 0.19001423, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -208,7 +207,7 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
---- !u!114 &2188542382958511427
+--- !u!114 &-3766681146875134129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,37 +216,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6039620372868440363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816a656842eab437cb7e7aac7855a91a, type: 3}
+  m_Script: {fileID: 11500000, guid: 58bf9030e7b444602ae75f421638b97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
   maxHealth: 3
-  animator: {fileID: 4331444751205880446}
-  spriteRenderer: {fileID: 1959389989920791780}
-  preferredRange: 5
-  rangeBuffer: 0.5
-  projectilePrefab: {fileID: 1878752187630863480, guid: 122cb85f4119f4f3199611f18cdcb127, type: 3}
-  projectileSpeed: 8
-  fireCooldown: 1.5
---- !u!95 &4331444751205880446
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039620372868440363}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 21773975fa64e40f29485328765f0e1b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  chargeRadius: 2
+  chargeSpeed: 12
+  telegraphDuration: 0.5
+  recoverDuration: 0.75
+  arrivalThreshold: 0.3
