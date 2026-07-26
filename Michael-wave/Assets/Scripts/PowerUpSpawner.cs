@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PowerupSpawner : MonoBehaviour
 {
@@ -10,13 +11,16 @@ public class PowerupSpawner : MonoBehaviour
     public float minSpawnDistance = 3f;
     public float maxSpawnDistance = 8f;
 
+    [Header("Ground Validation")]
+    public Tilemap groundTilemap; // drag your ground Tilemap here
+
     private Transform player;
     private float spawnTimer = 0f;
 
     void Start()
     {
         player = GameObject.Find("Player").transform;
-        spawnTimer = spawnInterval; // spawn one immediately on start; set to 0 if you want to wait the full interval first
+        spawnTimer = spawnInterval;
     }
 
     void Update()
@@ -35,12 +39,38 @@ public class PowerupSpawner : MonoBehaviour
     {
         if (powerupPrefabs.Length == 0) return;
 
+        Vector3 spawnPos = GetValidSpawnPosition();
+        if (spawnPos == Vector3.positiveInfinity) return; // couldn't find a valid ground spot, skip this spawn
+
         GameObject prefab = powerupPrefabs[Random.Range(0, powerupPrefabs.Length)];
-
-        Vector2 randomDirection = Random.insideUnitCircle.normalized;
-        float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
-        Vector3 spawnPos = player.position + (Vector3)(randomDirection * randomDistance);
-
         Instantiate(prefab, spawnPos, Quaternion.identity);
+    }
+
+    private Vector3 GetValidSpawnPosition()
+    {
+        const int maxAttempts = 10;
+
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            Vector2 randomDirection = Random.insideUnitCircle.normalized;
+            float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
+            Vector3 candidate = player.position + (Vector3)(randomDirection * randomDistance);
+
+            if (IsValidGroundPosition(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return Vector3.positiveInfinity; // no valid spot found after several tries — caller should skip spawning
+    }
+
+    private bool IsValidGroundPosition(Vector3 worldPos)
+    {
+        if (groundTilemap == null) return true; // no tilemap assigned, skip validation
+
+        Vector3Int cellPos = groundTilemap.WorldToCell(worldPos);
+        TileBase tile = groundTilemap.GetTile(cellPos);
+        return tile != null;
     }
 }

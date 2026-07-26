@@ -42,7 +42,6 @@ public class BossController : MonoBehaviour
         }
         yield return new WaitForSeconds(telegraphDuration);
 
-
         switch (index)
         {
             case 0: yield return StartCoroutine(HandsChargeAttack()); break;
@@ -60,8 +59,9 @@ public class BossController : MonoBehaviour
         leftHand.SetDamaging(true);
         rightHand.SetDamaging(true);
 
-        Coroutine l = StartCoroutine(leftHand.FlyToTarget(player.position, 0.6f));
-        Coroutine r = StartCoroutine(rightHand.FlyToTarget(player.position, 0.6f));
+        // was 0.6f — slower approach gives the player more time to react/dodge
+        Coroutine l = StartCoroutine(leftHand.FlyToTarget(player.position, 1.1f));
+        Coroutine r = StartCoroutine(rightHand.FlyToTarget(player.position, 1.1f));
         yield return l;
         yield return r;
 
@@ -93,8 +93,9 @@ public class BossController : MonoBehaviour
         leftHand.SetDamaging(true);
         rightHand.SetDamaging(true);
 
-        Coroutine l2 = StartCoroutine(leftHand.FlyToTarget(midpoint, 0.5f));
-        Coroutine r2 = StartCoroutine(rightHand.FlyToTarget(midpoint, 0.5f));
+        // was 0.5f — slower press-together so the player has more time to escape the gap
+        Coroutine l2 = StartCoroutine(leftHand.FlyToTarget(midpoint, 0.9f));
+        Coroutine r2 = StartCoroutine(rightHand.FlyToTarget(midpoint, 0.9f));
         yield return l2;
         yield return r2;
 
@@ -103,7 +104,7 @@ public class BossController : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        leftHand.ShowNormalVisual(); // swap back before/during return flight
+        leftHand.ShowNormalVisual();
         rightHand.ShowNormalVisual();
 
         yield return StartCoroutine(leftHand.ReturnToRest(0.8f));
@@ -121,8 +122,9 @@ public class BossController : MonoBehaviour
         leftHand.SetDamaging(true);
         rightHand.SetDamaging(true);
 
-        Coroutine l = StartCoroutine(leftHand.FlyToTarget(new Vector3(leftStart.x, player.position.y, 0), 0.8f));
-        Coroutine r = StartCoroutine(rightHand.FlyToTarget(new Vector3(rightStart.x, player.position.y, 0), 0.8f));
+        // was 0.8f — slower drop from the top
+        Coroutine l = StartCoroutine(leftHand.FlyToTarget(new Vector3(leftStart.x, player.position.y, 0), 1.4f));
+        Coroutine r = StartCoroutine(rightHand.FlyToTarget(new Vector3(rightStart.x, player.position.y, 0), 1.4f));
         yield return l;
         yield return r;
 
@@ -137,16 +139,18 @@ public class BossController : MonoBehaviour
     IEnumerator FistSlamAttack()
     {
         float slamX = player.position.x;
-        Vector3 startPos = new Vector3(slamX, 20f, 0); // much further above the screen now
+        Vector3 startPos = new Vector3(slamX, 20f, 0);
         Vector3 groundPos = new Vector3(slamX, player.position.y, 0);
 
         rightHand.transform.position = startPos;
         rightHand.ShowFistVisual();
 
-        yield return new WaitForSeconds(0.4f); // telegraph pause at the top, still visible/threatening
+        yield return new WaitForSeconds(0.4f);
 
         rightHand.SetDamaging(true);
-        yield return StartCoroutine(rightHand.FlyToTarget(groundPos, 0.12f)); // much faster slam — was 0.25f
+        // kept fast (0.12f) intentionally — the slam itself should still feel punishing;
+        // the long telegraph pause above already gives the player time to read and move away
+        yield return StartCoroutine(rightHand.FlyToTarget(groundPos, 0.12f));
 
         yield return new WaitForSeconds(0.2f);
         rightHand.SetDamaging(false);
@@ -159,7 +163,6 @@ public class BossController : MonoBehaviour
 
     IEnumerator CascadeAttackVariant()
     {
-        // randomly pick side-ramp or downward cascade each time this attack is chosen
         if (Random.value > 0.5f)
         {
             yield return StartCoroutine(projectileSpawner.CascadeRampAttack());
