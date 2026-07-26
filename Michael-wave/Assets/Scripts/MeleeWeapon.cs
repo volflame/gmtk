@@ -18,6 +18,8 @@ public class MeleeWeapon : Weapon
     private PlayerWeaponController weaponController;
 
     public Animator attackAnimator; // optional: if assigned, attackDuration syncs to its clip length
+    public string attackStateName = "Swing";      // animator state played by Attack()
+    public string phaseAttackStateName = "Swing"; // animator state played by PhaseAttack()
 
     // Only the collider needs to be gated to a frame window; the GameObject (sprite/animator)
     // stays active for the whole attackDuration so the animation keeps playing normally.
@@ -25,11 +27,22 @@ public class MeleeWeapon : Weapon
     public float hitboxActiveStart = 0.375f; // frame 3 at 8fps
     public float hitboxActiveEnd = 0.875f;   // frame 7 at 8fps
 
+    // Circular hitbox radius, in LOCAL units - transform scale multiplies it, so the hitbox
+    // grows in step with the sprite automatically. Leave at 0 to keep the collider's own radius.
+    private CircleCollider2D circleHitbox;
+    public float hitboxRadius = 0f;
+    public float hitboxRadiusPhase2 = 0f;
+
+    // Renders the attack at a multiple of the prefab's scale. 1 = unchanged.
+    public float attackScaleMultiplier = 1f;
+    public float phaseAttackScaleMultiplier = 1f;
+
     private void Awake()
     {
         original = meleeHitbox.transform.localScale;
         weaponController = gameObject.GetComponentInParent<PlayerWeaponController>();
         hitboxCollider = meleeHitbox.GetComponent<Collider2D>();
+        circleHitbox = hitboxCollider as CircleCollider2D;
         if (attackAnimator != null && attackAnimator.runtimeAnimatorController != null)
         {
             AnimationClip[] clips = attackAnimator.runtimeAnimatorController.animationClips;
@@ -77,12 +90,13 @@ public class MeleeWeapon : Weapon
         }
         if (attackAnimator != null)
         {
-            attackAnimator.Play("Swing", 0, 0f);
+            attackAnimator.Play(attackStateName, 0, 0f);
         }
-        if (weaponName == "Egg")
+        if (circleHitbox != null && hitboxRadius > 0f)
         {
-            StartCoroutine(Expand(1.5f));
+            circleHitbox.radius = hitboxRadius;
         }
+        meleeHitbox.transform.localScale = original * attackScaleMultiplier;
         StartCooldown();
     }
 
@@ -98,8 +112,13 @@ public class MeleeWeapon : Weapon
         }
         if (attackAnimator != null)
         {
-            attackAnimator.Play("Swing", 0, 0f);
+            attackAnimator.Play(phaseAttackStateName, 0, 0f);
         }
+        if (circleHitbox != null && hitboxRadiusPhase2 > 0f)
+        {
+            circleHitbox.radius = hitboxRadiusPhase2;
+        }
+        meleeHitbox.transform.localScale = original * phaseAttackScaleMultiplier;
         if (weaponController != null && weaponName != "Default") // RYAN ISTG STOP YOUR SPAGHETTI CODE
         {
             weaponController.CameraShake();
@@ -118,22 +137,18 @@ public class MeleeWeapon : Weapon
         // Ryan why are you writing genuine spaghetti code lock in
         if (weaponName == "Egg")
         {
-            attackDuration = 0.5f;
             cooldown = 0.5f;
             Debug.Log("Eggyweggy");
-            StartCoroutine(Expand(3f));
 
-            GameObject bulletUp = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bulletUp.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
-
-            GameObject bulletDown = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bulletDown.GetComponent<Rigidbody2D>().AddForce(-firePoint.up * fireForce, ForceMode2D.Impulse);
-
-            GameObject bulletLeft = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bulletLeft.GetComponent<Rigidbody2D>().AddForce(-firePoint.right * fireForce, ForceMode2D.Impulse);
-
-            GameObject bulletRight = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bulletRight.GetComponent<Rigidbody2D>().AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
+            // Fire in the four cardinal directions, each projectile rotated to face its own
+            // heading (sprite art points up, hence the -90 offset).
+            Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+            foreach (Vector2 direction in directions)
+            {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+                GameObject projectile = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0f, 0f, angle));
+                projectile.GetComponent<Rigidbody2D>().AddForce(direction * fireForce, ForceMode2D.Impulse);
+            }
         }
         StartCooldown();
     }
