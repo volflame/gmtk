@@ -37,8 +37,9 @@ public class PlayerWeaponController : MonoBehaviour
             if (currentWeapon.weaponName != "Default")
             {
                 countdown -= Time.deltaTime;
-                // countdown = (float)Math.Round(countdown, 2);
-                timer.text = countdown.ToString();
+                int minutes = Mathf.FloorToInt(countdown / 60f);
+                int seconds = Mathf.FloorToInt(countdown % 60f);
+                timer.text = $"{minutes}:{seconds:00}";
             }
         }
 

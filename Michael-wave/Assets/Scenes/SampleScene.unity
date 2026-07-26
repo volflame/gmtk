@@ -3836,6 +3836,7 @@ RectTransform:
   m_Children:
   - {fileID: 1506656187}
   - {fileID: 1876108896}
+  - {fileID: 2141289274}
   m_Father: {fileID: 56620984}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -4649,7 +4650,7 @@ GameObject:
   - component: {fileID: 2141289276}
   - component: {fileID: 2141289275}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TimerDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4667,12 +4668,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1209961683}
+  m_Father: {fileID: 1496633776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 70, y: 40}
+  m_SizeDelta: {x: 70, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141289275
 MonoBehaviour:
