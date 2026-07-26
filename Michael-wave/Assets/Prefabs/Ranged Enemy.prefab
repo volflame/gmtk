@@ -224,6 +224,10 @@ MonoBehaviour:
   maxHealth: 3
   animator: {fileID: 4331444751205880446}
   spriteRenderer: {fileID: 1959389989920791780}
+  contactDamage: 1
+  contactKnockback: 12
+  hitFlashMaterial: {fileID: 2100000, guid: b62f4e19d8a3c7541e0b95f3c8d217ae, type: 2}
+  hitFlashDuration: 0.18
   preferredRange: 5
   rangeBuffer: 0.5
   projectilePrefab: {fileID: 1878752187630863480, guid: 122cb85f4119f4f3199611f18cdcb127, type: 3}

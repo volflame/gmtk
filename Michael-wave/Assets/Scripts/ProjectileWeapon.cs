@@ -42,6 +42,7 @@ public class ProjectileWeapon : Weapon
 
         if (weaponName == "Popcorn")
         {
+            cooldown = 0.3f; // phase 1 rapid-fires at a much shorter cooldown; keep phase 2 at its original rate
             Debug.Log("poppy pop pop pop");
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bullet.GetComponent<SpriteRenderer>().sprite = poppedKernel;

@@ -103,7 +103,11 @@ MonoBehaviour:
   weaponName: Popcorn
   coldSprite: {fileID: -4903261317034834871, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
   hotSprite: {fileID: 6034572993221791165, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
-  cooldown: 0.3
+  duration: 45
+  secondPhaseAt: 15
+  cooldown: 0.15
+  holdToFire: 1
+  holdToFirePhase2: 0
   timer: {fileID: 0}
   bulletPrefab: {fileID: 1878752187630863480, guid: 817861218b086407aa62e366969ce3f9, type: 3}
   poppedKernel: {fileID: 21300000, guid: aabafe248f85a482795f81d33018af59, type: 3}

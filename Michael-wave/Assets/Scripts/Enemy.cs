@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -19,9 +20,50 @@ public abstract class Enemy : MonoBehaviour
     private int slowStacks = 0; // handles overlapping slow zones cleanly
     public Animator animator;
 
+    [Header("Contact Damage")]
+    public int contactDamage = 1;
+    public float contactKnockback = 12f;
+
+    [Header("Hit Feedback")]
+    public Material hitFlashMaterial;
+    public float hitFlashDuration = 0.18f;
+    private Material originalMaterial;
+    private Coroutine hitFlashRoutine;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // Not every enemy prefab has this wired in the Inspector, so resolve it here.
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        if (spriteRenderer != null)
+        {
+            originalMaterial = spriteRenderer.sharedMaterial;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        TryDamagePlayer(collision.collider);
+    }
+
+    // Also fires while the enemy stays pressed against the player, so contact damage
+    // resumes once the player's invincibility window expires.
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        TryDamagePlayer(collision.collider);
+    }
+
+    private void TryDamagePlayer(Collider2D other)
+    {
+        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+        if (playerHealth == null || playerHealth.IsInvincible) return;
+
+        Vector2 direction = (other.transform.position - transform.position).normalized;
+        playerHealth.TakeDamage(contactDamage, direction, contactKnockback);
     }
 
     protected virtual void Start()
@@ -98,10 +140,30 @@ public abstract class Enemy : MonoBehaviour
     {
         health -= damage;
         KnockBack(direction, knockbackForce);
+        FlashOnHit();
         if (health <= 0)
         {
             Die(); // add coroutine and animation here later on ryan
         }
+    }
+
+    private void FlashOnHit()
+    {
+        if (spriteRenderer == null || hitFlashMaterial == null) return;
+
+        if (hitFlashRoutine != null) StopCoroutine(hitFlashRoutine);
+        hitFlashRoutine = StartCoroutine(HitFlash());
+    }
+
+    private IEnumerator HitFlash()
+    {
+        spriteRenderer.material = hitFlashMaterial;
+        yield return new WaitForSeconds(hitFlashDuration);
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.material = originalMaterial;
+        }
+        hitFlashRoutine = null;
     }
 
     protected virtual void Die()

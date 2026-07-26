@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  knockbackForce: 20
+  knockbackForce: 28
 --- !u!50 &6113640153012653150
 Rigidbody2D:
   serializedVersion: 5

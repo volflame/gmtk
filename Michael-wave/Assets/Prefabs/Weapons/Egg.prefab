@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  knockbackForce: 10
+  knockbackForce: 14
 --- !u!50 &2353068064316144573
 Rigidbody2D:
   serializedVersion: 5
@@ -184,7 +184,9 @@ MonoBehaviour:
   weaponName: Egg
   coldSprite: {fileID: 8488082480229581224, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
   hotSprite: {fileID: 368560520376304578, guid: c789c1441032d5348a7a63d03a677aa8, type: 3}
-  cooldown: 2
+  duration: 30
+  secondPhaseAt: 15
+  cooldown: 0.5
   timer: {fileID: 0}
   meleeHitbox: {fileID: 6567276056661087806}
   attackDuration: 0.3
