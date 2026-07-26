@@ -38,12 +38,11 @@ public class MeleeEnemy : Enemy
             animator.SetTrigger("Slice");
         }
 
-        // RYAN: Undo this eventually
-        // Player player = target.GetComponent<Player>();
-        // if (player != null)
-        // {
-        //     Vector2 direction = (target.position - transform.position).normalized;
-        //     player.TakeDamage(attackDamage, direction, attackKnockback);
-        // }
+        PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
+        if (playerHealth != null && !playerHealth.IsInvincible)
+        {
+            Vector2 direction = (target.position - transform.position).normalized;
+            playerHealth.TakeDamage(Mathf.RoundToInt(attackDamage), direction, attackKnockback);
+        }
     }
 }

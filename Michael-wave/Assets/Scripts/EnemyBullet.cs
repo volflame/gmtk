@@ -14,14 +14,12 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // THIS IS WHERE YOU CHECK IF YOU'RE HITTING PLAYER
-        // DAMAGE PLAYER
-        // Player player = collision.GetComponent<Player>();
-        // if (player != null)
-        // {
-        //     Vector2 direction = (player.transform.position - transform.position).normalized;
-        //     player.TakeDamage(damage, direction, knockbackForce);
-        // }
+        PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+        if (playerHealth != null && !playerHealth.IsInvincible)
+        {
+            Vector2 direction = (playerHealth.transform.position - transform.position).normalized;
+            playerHealth.TakeDamage(Mathf.RoundToInt(damage), direction, knockbackForce);
+        }
 
         if (gameObject.tag == "Projectile")
         {

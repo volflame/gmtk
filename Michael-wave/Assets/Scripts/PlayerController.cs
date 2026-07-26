@@ -9,14 +9,44 @@ public class PlayerController : MonoBehaviour
     float speedX, speedY;
     Rigidbody2D rb;
     public Transform firePoint;
+
+    [Header("Knockback")]
+    public float knockbackDuration = 0.2f;
+    private float knockbackTimer = 0f;
+    public bool IsKnocked => knockbackTimer > 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    // Applies an impulse and suspends input-driven movement, otherwise the velocity
+    // assignment below would overwrite the knockback on the very next frame.
+    public void ApplyKnockback(Vector2 direction, float force)
+    {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+
+        knockbackTimer = knockbackDuration;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.deltaTime;
+            if (animator != null) animator.SetFloat("Speed", 0f);
+
+            if (knockbackTimer <= 0f)
+            {
+                knockbackTimer = 0f;
+                rb.linearVelocity = Vector2.zero;
+            }
+            return; // let the impulse carry the player; ignore input this frame
+        }
+
         speedX = Input.GetAxisRaw("Horizontal") * moveSpeed;
         speedY = Input.GetAxisRaw("Vertical") * moveSpeed;
         rb.linearVelocity = new Vector2(speedX, speedY);

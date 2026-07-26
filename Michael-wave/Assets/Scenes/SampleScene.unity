@@ -1735,6 +1735,7 @@ GameObject:
   - component: {fileID: 768040999}
   - component: {fileID: 768041000}
   - component: {fileID: 768041001}
+  - component: {fileID: 768041002}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1758,6 +1759,23 @@ MonoBehaviour:
   animator: {fileID: 768041000}
   spriteRenderer: {fileID: 768040995}
   firePoint: {fileID: 968817818}
+--- !u!114 &768041002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768040993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4148b81a836a144bb1472005899705, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  maxHealth: 4
+  healthUI: {fileID: 1590729780}
+  invincibilityDuration: 0.5
+  flashInterval: 0.08
+  spriteRenderer: {fileID: 768040995}
 --- !u!212 &768040995
 SpriteRenderer:
   m_ObjectHideFlags: 0
