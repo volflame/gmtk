@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Default
+  duration: 30
+  secondPhaseAt: 15
   cooldown: 0.3
   timer: {fileID: 0}
   meleeHitbox: {fileID: 4089279290078793452}

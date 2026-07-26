@@ -194,6 +194,8 @@ MonoBehaviour:
   weaponName: Burrito
   coldSprite: {fileID: 7475540813241666274, guid: 602d799cabf4fee489b6e4d6375ee4fc, type: 3}
   hotSprite: {fileID: 7515407046113711043, guid: 602d799cabf4fee489b6e4d6375ee4fc, type: 3}
+  duration: 30
+  secondPhaseAt: 15
   cooldown: 0.3
   timer: {fileID: 0}
   meleeHitbox: {fileID: 4089279290078793452}

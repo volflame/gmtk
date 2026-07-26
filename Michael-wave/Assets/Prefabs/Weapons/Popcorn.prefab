@@ -103,6 +103,8 @@ MonoBehaviour:
   weaponName: Popcorn
   coldSprite: {fileID: -4903261317034834871, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
   hotSprite: {fileID: 6034572993221791165, guid: e417061ee37ada542a4abe8c115f7692, type: 3}
+  duration: 45
+  secondPhaseAt: 15
   cooldown: 0.1
   holdToFire: 1
   holdToFirePhase2: 0

@@ -91,7 +91,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon newWeapon)
     {
-        countdown = 10f;
+        countdown = newWeapon.duration;
+        startSecondPhase = newWeapon.secondPhaseAt;
         secondPhase = false;
         timer.color = Color.white;
         timer.gameObject.SetActive(true);
