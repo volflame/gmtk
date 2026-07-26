@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -23,12 +24,25 @@ public class WaveSpawner : MonoBehaviour
     public int enemiesIncreasePerWave = 2;
     public float timeBetweenWaves = 3f;
 
+    [Header("Wave UI")]
+    public TextMeshProUGUI waveText;
+    public Color normalWaveColor = Color.white;
+    public Color bossWaveColor = Color.red;
+
     [Header("Boss Settings")]
     public int totalWaves = 5;
     public GameObject bossPrefab;
     public Transform bossSpawnPoint;
     public CinemachineImpulseSource bossSpawnImpulseSource;
-    public float bossSpawnImpulseForce = 3f; // strong — tune to taste
+    public float bossSpawnImpulseForce = 3f;
+
+    [Header("Victory")]
+    public TextMeshProUGUI victoryText;
+    public CinemachineImpulseSource victoryImpulseSource;
+    public float victoryImpulseForce = 3f;
+
+    [Header("Ground Validation")]
+    public Tilemap groundTilemap;
 
     private int currentWave = 0;
     private int enemiesAlive = 0;
@@ -38,6 +52,11 @@ public class WaveSpawner : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        if (victoryText != null)
+        {
+            victoryText.gameObject.SetActive(false);
+        }
     }
 
     void Start()
@@ -52,9 +71,12 @@ public class WaveSpawner : MonoBehaviour
 
         if (currentWave >= totalWaves)
         {
+            UpdateWaveUI(isBossWave: true);
             SpawnBoss();
             return;
         }
+
+        UpdateWaveUI(isBossWave: false);
 
         int enemyCount = enemiesPerWave + (currentWave - 1) * enemiesIncreasePerWave;
         enemiesAlive = enemyCount;
@@ -65,6 +87,29 @@ public class WaveSpawner : MonoBehaviour
         {
             SpawnEnemy();
         }
+    }
+
+    private void UpdateWaveUI(bool isBossWave)
+    {
+        if (waveText == null) return;
+
+        if (isBossWave)
+        {
+            waveText.text = "BOSS";
+            waveText.color = bossWaveColor;
+        }
+        else
+        {
+            string currentFormatted = FormatAsMicrowaveTime(currentWave);
+            string totalFormatted = FormatAsMicrowaveTime(totalWaves - 1);
+            waveText.text = currentFormatted + " / " + totalFormatted;
+            waveText.color = normalWaveColor;
+        }
+    }
+
+    private string FormatAsMicrowaveTime(int waveNumber)
+    {
+        return waveNumber + ":00";
     }
 
     void SpawnBoss()
@@ -84,7 +129,7 @@ public class WaveSpawner : MonoBehaviour
 
         Debug.Log("Final wave — spawning boss");
         GameObject boss = Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);
-        boss.SetActive(true); // usually unnecessary unless your prefab is saved in a disabled state
+        boss.SetActive(true);
 
         if (bossSpawnImpulseSource != null)
         {
@@ -92,16 +137,13 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-        [Header("Ground Validation")]
-    public Tilemap groundTilemap; // drag your ground Tilemap here
-
     private bool IsValidGroundPosition(Vector3 worldPos)
     {
-        if (groundTilemap == null) return true; // no tilemap assigned, skip validation
+        if (groundTilemap == null) return true;
 
         Vector3Int cellPos = groundTilemap.WorldToCell(worldPos);
         TileBase tile = groundTilemap.GetTile(cellPos);
-        return tile != null; // true only if there's an actual ground tile at this cell
+        return tile != null;
     }
 
     void SpawnEnemy()
@@ -112,7 +154,7 @@ public class WaveSpawner : MonoBehaviour
         if (enemyPrefab == null) return;
 
         Vector3 spawnPos = GetValidSpawnPosition();
-        if (spawnPos == Vector3.positiveInfinity) return; // couldn't find a valid spot, skip this spawn
+        if (spawnPos == Vector3.positiveInfinity) return;
 
         Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
     }
@@ -133,7 +175,6 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        // fallback: just use the spawn point itself with no offset if nothing valid found after several tries
         Transform fallback = spawnPoints[Random.Range(0, spawnPoints.Length)];
         return IsValidGroundPosition(fallback.position) ? fallback.position : Vector3.positiveInfinity;
     }
@@ -174,11 +215,26 @@ public class WaveSpawner : MonoBehaviour
             if (bossSpawned)
             {
                 Debug.Log("Boss defeated! Game complete.");
+                TriggerVictory();
                 return;
             }
 
             Debug.Log("Wave " + currentWave + " cleared!");
             Invoke(nameof(StartNextWave), timeBetweenWaves);
+        }
+    }
+
+    private void TriggerVictory()
+    {
+        if (victoryText != null)
+        {
+            victoryText.gameObject.SetActive(true);
+            victoryText.text = "You Win!";
+        }
+
+        if (victoryImpulseSource != null)
+        {
+            victoryImpulseSource.GenerateImpulseWithForce(victoryImpulseForce);
         }
     }
 }

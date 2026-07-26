@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PlayerHealth : MonoBehaviour
     public float invincibilityDuration = 0.5f;
     public float flashInterval = 0.08f;
     public SpriteRenderer spriteRenderer;
+
+    [Header("Death/Restart")]
+    public bool isDead = false;
 
     private int currentHealth;
     private float invincibleTimer = 0f;
@@ -34,6 +38,15 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RestartScene();
+            }
+            return; // no other input matters once dead
+        }
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(1);
@@ -45,10 +58,9 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Contact damage: knocks the player away from the damage source and starts i-frames.
     public void TakeDamage(int amount, Vector2 direction, float knockbackForce)
     {
-        if (invincibleTimer > 0f) return; // already in i-frames, ignore
+        if (isDead || invincibleTimer > 0f) return;
 
         invincibleTimer = invincibilityDuration;
 
@@ -60,6 +72,12 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Max(0, currentHealth - amount);
         healthUI.SetHealth(currentHealth);
 
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
         if (spriteRenderer != null)
         {
             StopCoroutine(nameof(FlashDuringInvincibility));
@@ -67,10 +85,26 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Kept so anything calling the old single-argument form still compiles.
     public void TakeDamage(int amount)
     {
         TakeDamage(amount, Vector2.zero, 0f);
+    }
+
+    private void Die()
+{
+    isDead = true;
+
+    if (GameOverManager.Instance != null)
+    {
+        GameOverManager.Instance.TriggerGameOver();
+    }
+
+    Destroy(gameObject);
+}
+
+    private void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator FlashDuringInvincibility()
