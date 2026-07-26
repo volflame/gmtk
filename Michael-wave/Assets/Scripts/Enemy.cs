@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
 
     private float speedMultiplier = 1f;
     private int slowStacks = 0; // handles overlapping slow zones cleanly
+    public Animator animator;
 
     protected virtual void Awake()
     {
@@ -36,11 +37,29 @@ public abstract class Enemy : MonoBehaviour
             Vector3 direction = (target.position - transform.position).normalized;
             moveDirection = direction;
 
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = angle;
+            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // rb.rotation = angle;
+
+            UpdateAnimatorDirection(direction);
         }
 
         OnUpdate(); // hook for subclass-specific per-frame logic (e.g. fire timers)
+    }
+
+    protected void UpdateAnimatorDirection(Vector3 direction)
+    {
+        if (animator == null) return;
+
+        animator.SetFloat("Speed", rb.linearVelocity.magnitude);
+
+        if (Mathf.Abs(direction.y) > Mathf.Abs(direction.x))
+        {
+            animator.SetInteger("Direction", direction.y > 0 ? 1 : 0); // Back : Front
+        }
+        else
+        {
+            animator.SetInteger("Direction", 2); // Side
+        }
     }
 
     private void FixedUpdate()
@@ -113,4 +132,6 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected float CurrentSpeed => moveSpeed * speedMultiplier;
+
+
 }

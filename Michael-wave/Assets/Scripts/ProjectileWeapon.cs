@@ -5,6 +5,7 @@ using UnityEngine.Animations;
 public class ProjectileWeapon : Weapon
 {
     public GameObject bulletPrefab;
+    public Sprite poppedKernel;
     public GameObject whipPrefab;
     public float whipDuration = 0.25f;
     public GameObject ramenPrefab;
@@ -43,6 +44,7 @@ public class ProjectileWeapon : Weapon
         {
             Debug.Log("poppy pop pop pop");
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bullet.GetComponent<SpriteRenderer>().sprite = poppedKernel;
             bullet.transform.localScale *= 10f;
             bullet.GetComponent<Bullet>().knockbackForce *= 6f;
             bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);

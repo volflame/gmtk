@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5526456875675729959}
   - component: {fileID: -1451086847151781977}
   - component: {fileID: 2188542382958511427}
+  - component: {fileID: 4331444751205880446}
   m_Layer: 7
   m_Name: Ranged Enemy
   m_TagString: Untagged
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.54377365, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,8 +222,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   maxHealth: 3
+  animator: {fileID: 4331444751205880446}
   preferredRange: 5
   rangeBuffer: 0.5
   projectilePrefab: {fileID: 1878752187630863480, guid: 122cb85f4119f4f3199611f18cdcb127, type: 3}
   projectileSpeed: 8
   fireCooldown: 1.5
+--- !u!95 &4331444751205880446
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039620372868440363}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 21773975fa64e40f29485328765f0e1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
