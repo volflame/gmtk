@@ -15,7 +15,20 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
+        StartIdleBob();
         StartCoroutine(AttackLoop());
+    }
+
+    private void StartIdleBob()
+    {
+        if (leftHand != null) leftHand.StartIdleBob();
+        if (rightHand != null) rightHand.StartIdleBob();
+    }
+
+    private void StopIdleBob()
+    {
+        if (leftHand != null) leftHand.StopIdleBob();
+        if (rightHand != null) rightHand.StopIdleBob();
     }
 
     IEnumerator AttackLoop()
@@ -35,6 +48,7 @@ public class BossController : MonoBehaviour
     IEnumerator RunAttack(int index)
     {
         isAttacking = true;
+        StopIdleBob(); // attacks write transform.position directly; the bob would fight them
 
         if (bossAnimator != null)
         {
@@ -52,6 +66,7 @@ public class BossController : MonoBehaviour
         }
 
         isAttacking = false;
+        StartIdleBob();
     }
 
     IEnumerator HandsChargeAttack()

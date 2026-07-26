@@ -15,13 +15,49 @@ public class HandController : MonoBehaviour
     public GameObject prayerVisual;
     public GameObject fistVisual;
 
+    [Header("Idle Bob")]
+    public float idleBobHeight = 0.4f;    // how far the hand drifts up
+    public float idleBobDuration = 2f;    // seconds for a full up-and-back cycle
+    [Range(0f, 1f)] public float idleBobPhaseOffset = 0f; // stagger the two hands if desired
+
     private bool isDamaging = false;
     private Vector3 restPosition;
+    private Coroutine idleBobRoutine;
 
     void Awake()
     {
         restPosition = transform.position;
         SetVisual(normalVisual);
+    }
+
+    // Attacks drive transform.position directly, so the bob has to be off while one runs.
+    public void StartIdleBob()
+    {
+        if (idleBobRoutine != null) return;
+        idleBobRoutine = StartCoroutine(IdleBob());
+    }
+
+    public void StopIdleBob()
+    {
+        if (idleBobRoutine == null) return;
+        StopCoroutine(idleBobRoutine);
+        idleBobRoutine = null;
+    }
+
+    private IEnumerator IdleBob()
+    {
+        float t = idleBobPhaseOffset * idleBobDuration;
+
+        while (true)
+        {
+            t += Time.deltaTime;
+
+            // starts at 0 (rest), eases up to idleBobHeight, eases back down, repeat
+            float phase = (Mathf.Sin((t / idleBobDuration) * Mathf.PI * 2f - Mathf.PI * 0.5f) + 1f) * 0.5f;
+            transform.position = restPosition + Vector3.up * (idleBobHeight * phase);
+
+            yield return null;
+        }
     }
 
     private void SetVisual(GameObject activeVisual)
